@@ -1,0 +1,19 @@
+{
+    "name": "nonprogrammerguy/sample-package",
+    "description": "a sample package",
+    "require": {
+        "phpunit/phpunit": "10.0.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nonprogrammerguy\\SamplePackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "evann"
+        }
+    ],
+    "minimum-stability": "dev"
+}
