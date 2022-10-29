@@ -17,7 +17,6 @@ use function substr_count;
 use SebastianBergmann\CodeCoverage\Node\AbstractNode;
 use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
 use SebastianBergmann\CodeCoverage\Node\File as FileNode;
-use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Version;
 use SebastianBergmann\Environment\Runtime;
 use SebastianBergmann\Template\Template;
@@ -27,24 +26,48 @@ use SebastianBergmann\Template\Template;
  */
 abstract class Renderer
 {
-    protected string $templatePath;
+    /**
+     * @var string
+     */
+    protected $templatePath;
 
-    protected string $generator;
+    /**
+     * @var string
+     */
+    protected $generator;
 
-    protected string $date;
+    /**
+     * @var string
+     */
+    protected $date;
 
-    protected Thresholds $thresholds;
+    /**
+     * @var int
+     */
+    protected $lowUpperBound;
 
-    protected bool $hasBranchCoverage;
+    /**
+     * @var int
+     */
+    protected $highLowerBound;
 
-    protected string $version;
+    /**
+     * @var bool
+     */
+    protected $hasBranchCoverage;
 
-    public function __construct(string $templatePath, string $generator, string $date, Thresholds $thresholds, bool $hasBranchCoverage)
+    /**
+     * @var string
+     */
+    protected $version;
+
+    public function __construct(string $templatePath, string $generator, string $date, int $lowUpperBound, int $highLowerBound, bool $hasBranchCoverage)
     {
         $this->templatePath      = $templatePath;
         $this->generator         = $generator;
         $this->date              = $date;
-        $this->thresholds        = $thresholds;
+        $this->lowUpperBound     = $lowUpperBound;
+        $this->highLowerBound    = $highLowerBound;
         $this->version           = Version::id();
         $this->hasBranchCoverage = $hasBranchCoverage;
     }
@@ -176,8 +199,8 @@ abstract class Renderer
                 'version'          => $this->version,
                 'runtime'          => $this->runtimeString(),
                 'generator'        => $this->generator,
-                'low_upper_bound'  => $this->thresholds->lowUpperBound(),
-                'high_lower_bound' => $this->thresholds->highLowerBound(),
+                'low_upper_bound'  => $this->lowUpperBound,
+                'high_lower_bound' => $this->highLowerBound,
             ]
         );
     }
@@ -265,12 +288,12 @@ abstract class Renderer
 
     protected function colorLevel(float $percent): string
     {
-        if ($percent <= $this->thresholds->lowUpperBound()) {
+        if ($percent <= $this->lowUpperBound) {
             return 'danger';
         }
 
-        if ($percent > $this->thresholds->lowUpperBound() &&
-            $percent < $this->thresholds->highLowerBound()) {
+        if ($percent > $this->lowUpperBound &&
+            $percent < $this->highLowerBound) {
             return 'warning';
         }
 

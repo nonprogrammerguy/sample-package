@@ -23,13 +23,25 @@ use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
  */
 final class CachingFileAnalyser implements FileAnalyser
 {
-    private static ?string $cacheVersion = null;
+    /**
+     * @var ?string
+     */
+    private static $cacheVersion;
 
-    private FileAnalyser $analyser;
+    /**
+     * @var FileAnalyser
+     */
+    private $analyser;
 
-    private array $cache = [];
+    /**
+     * @var array
+     */
+    private $cache = [];
 
-    private string $directory;
+    /**
+     * @var string
+     */
+    private $directory;
 
     public function __construct(string $directory, FileAnalyser $analyser)
     {
@@ -121,7 +133,7 @@ final class CachingFileAnalyser implements FileAnalyser
     /**
      * @return mixed
      */
-    private function read(string $filename): array|false
+    private function read(string $filename)
     {
         $cacheFile = $this->cacheFile($filename);
 
@@ -135,7 +147,10 @@ final class CachingFileAnalyser implements FileAnalyser
         );
     }
 
-    private function write(string $filename, array $data): void
+    /**
+     * @param mixed $data
+     */
+    private function write(string $filename, $data): void
     {
         file_put_contents(
             $this->cacheFile($filename),

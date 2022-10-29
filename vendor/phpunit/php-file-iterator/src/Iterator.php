@@ -13,24 +13,37 @@ use function array_filter;
 use function array_map;
 use function preg_match;
 use function realpath;
-use function str_ends_with;
 use function str_replace;
-use function str_starts_with;
+use function strlen;
+use function strpos;
+use function substr;
 use FilterIterator;
 
-final class Iterator extends FilterIterator
+class Iterator extends FilterIterator
 {
     public const PREFIX = 0;
 
     public const SUFFIX = 1;
 
-    private string|false $basePath;
+    /**
+     * @var string
+     */
+    private $basePath;
 
-    private array $suffixes;
+    /**
+     * @var array
+     */
+    private $suffixes = [];
 
-    private array $prefixes;
+    /**
+     * @var array
+     */
+    private $prefixes = [];
 
-    private array $exclude;
+    /**
+     * @var array
+     */
+    private $exclude = [];
 
     public function __construct(string $basePath, \Iterator $iterator, array $suffixes = [], array $prefixes = [], array $exclude = [])
     {
@@ -65,7 +78,7 @@ final class Iterator extends FilterIterator
         }
 
         foreach ($this->exclude as $exclude) {
-            if (str_starts_with($path, $exclude)) {
+            if (strpos($path, $exclude) === 0) {
                 return false;
             }
         }
@@ -92,8 +105,9 @@ final class Iterator extends FilterIterator
         $matched = false;
 
         foreach ($subStrings as $string) {
-            if (($type === self::PREFIX && str_starts_with($filename, $string)) ||
-                ($type === self::SUFFIX && str_ends_with($filename, $string))) {
+            if (($type === self::PREFIX && strpos($filename, $string) === 0) ||
+                ($type === self::SUFFIX &&
+                 substr($filename, -1 * strlen($string)) === $string)) {
                 $matched = true;
 
                 break;

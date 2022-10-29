@@ -26,9 +26,12 @@ final class ComplexityCalculatingVisitor extends NodeVisitorAbstract
     /**
      * @psalm-var list<Complexity>
      */
-    private array $result = [];
+    private $result = [];
 
-    private bool $shortCircuitTraversal;
+    /**
+     * @var bool
+     */
+    private $shortCircuitTraversal;
 
     public function __construct(bool $shortCircuitTraversal)
     {

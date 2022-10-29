@@ -20,12 +20,15 @@ use Throwable;
 
 final class Invoker
 {
-    private int $timeout;
+    /**
+     * @var int
+     */
+    private $timeout;
 
     /**
      * @throws Throwable
      */
-    public function invoke(callable $callable, array $arguments, int $timeout): mixed
+    public function invoke(callable $callable, array $arguments, int $timeout)
     {
         if (!$this->canInvokeWithTimeout()) {
             throw new ProcessControlExtensionNotLoadedException(

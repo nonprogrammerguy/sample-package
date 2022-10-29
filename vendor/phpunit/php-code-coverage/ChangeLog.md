@@ -2,24 +2,6 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [10.0.0] - 2023-MM-DD
-
-### Added
-
-* [#556](https://github.com/sebastianbergmann/php-code-coverage/issues/556): Make colors in HTML report configurable
-* The path to `custom.css` for the HTML report can now be configured
-
-### Changed
-
-* [#856](https://github.com/sebastianbergmann/php-code-coverage/issues/856): Do not include (and execute) uncovered files
-
-### Removed
-
-* The deprecated methods `SebastianBergmann\CodeCoverage\Driver::forLineCoverage()` and `SebastianBergmann\CodeCoverage\Driver::forLineAndPathCoverage()` have been removed
-* This component is no longer supported on PHP 7.3, PHP 7.4 and PHP 8.0
-* This component no longer supports PHPDBG
-* This component no longer supports Xdebug 2
-
 ## [9.2.18] - 2022-MM-DD
 
 ### Fixed
@@ -179,7 +161,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ### Fixed
 
-* [#810](https://github.com/sebastianbergmann/php-code-coverage/issues/810): `SebastianBergmann\CodeCoverage\Driver\Driver::forLineCoverage()` and `SebastianBergmann\CodeCoverage\Driver\Driver::forLineAndPathCoverage()` are marked as internal 
+* [#810](https://github.com/sebastianbergmann/php-code-coverage/issues/810): `SebastianBergmann\CodeCoverage\Driver\Driver::forLineCoverage()` and `SebastianBergmann\CodeCoverage\Driver\Driver::forLineAndPathCoverage()` are marked as internal
 
 ### Removed
 
@@ -440,7 +422,6 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 7.1
 
-[10.0.0]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2...master
 [9.2.18]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.17...9.2
 [9.2.17]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.16...9.2.17
 [9.2.16]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.15...9.2.16

@@ -12,7 +12,6 @@ namespace PHPUnit\Framework;
 use function array_keys;
 use function get_object_vars;
 use PHPUnit\Util\Filter;
-use PHPUnit\Util\ThrowableToStringMapper;
 use RuntimeException;
 use Throwable;
 
@@ -40,7 +39,10 @@ use Throwable;
  */
 class Exception extends RuntimeException implements \PHPUnit\Exception
 {
-    protected array $serializableTrace;
+    /**
+     * @var array
+     */
+    protected $serializableTrace;
 
     public function __construct($message = '', $code = 0, Throwable $previous = null)
     {
@@ -55,7 +57,7 @@ class Exception extends RuntimeException implements \PHPUnit\Exception
 
     public function __toString(): string
     {
-        $string = ThrowableToStringMapper::map($this);
+        $string = TestFailure::exceptionToString($this);
 
         if ($trace = Filter::getFilteredStacktrace($this)) {
             $string .= "\n" . $trace;

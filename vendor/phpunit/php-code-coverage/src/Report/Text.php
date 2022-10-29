@@ -53,15 +53,30 @@ final class Text
      */
     private const COLOR_EOL = "\x1b[2K";
 
-    private Thresholds $thresholds;
+    /**
+     * @var int
+     */
+    private $lowUpperBound;
 
-    private bool $showUncoveredFiles;
+    /**
+     * @var int
+     */
+    private $highLowerBound;
 
-    private bool $showOnlySummary;
+    /**
+     * @var bool
+     */
+    private $showUncoveredFiles;
 
-    public function __construct(Thresholds $thresholds, bool $showUncoveredFiles = false, bool $showOnlySummary = false)
+    /**
+     * @var bool
+     */
+    private $showOnlySummary;
+
+    public function __construct(int $lowUpperBound = 50, int $highLowerBound = 90, bool $showUncoveredFiles = false, bool $showOnlySummary = false)
     {
-        $this->thresholds         = $thresholds;
+        $this->lowUpperBound      = $lowUpperBound;
+        $this->highLowerBound     = $highLowerBound;
         $this->showUncoveredFiles = $showUncoveredFiles;
         $this->showOnlySummary    = $showOnlySummary;
     }
@@ -291,11 +306,11 @@ final class Text
             $totalNumberOfElements
         );
 
-        if ($coverage->asFloat() >= $this->thresholds->highLowerBound()) {
+        if ($coverage->asFloat() >= $this->highLowerBound) {
             return self::COLOR_GREEN;
         }
 
-        if ($coverage->asFloat() > $this->thresholds->lowUpperBound()) {
+        if ($coverage->asFloat() > $this->lowUpperBound) {
             return self::COLOR_YELLOW;
         }
 
@@ -314,7 +329,10 @@ final class Text
         sprintf($format, $totalNumberOfElements) . ')';
     }
 
-    private function format(string $color, int $padding, string|false $string): string
+    /**
+     * @param false|string $string
+     */
+    private function format(string $color, int $padding, $string): string
     {
         $reset = $color ? self::COLOR_RESET : '';
 

@@ -9,7 +9,10 @@
  */
 namespace SebastianBergmann\CodeCoverage\StaticAnalysis;
 
+use function array_merge;
 use function assert;
+use function range;
+use function strpos;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Stmt\Class_;
@@ -25,13 +28,19 @@ use PhpParser\NodeVisitorAbstract;
 final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
 {
     /**
-     * @psalm-var array<int>
+     * @psalm-var list<int>
      */
-    private array $ignoredLines = [];
+    private $ignoredLines = [];
 
-    private bool $useAnnotationsForIgnoringCode;
+    /**
+     * @var bool
+     */
+    private $useAnnotationsForIgnoringCode;
 
-    private bool $ignoreDeprecated;
+    /**
+     * @var bool
+     */
+    private $ignoreDeprecated;
 
     public function __construct(bool $useAnnotationsForIgnoringCode, bool $ignoreDeprecated)
     {
@@ -74,23 +83,11 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
-        if ($node instanceof Attribute &&
-            $node->name->toString() === 'PHPUnit\Framework\Attributes\CodeCoverageIgnore') {
-            $attributeGroup = $node->getAttribute('parent');
-            $attributedNode = $attributeGroup->getAttribute('parent');
-
-            for ($line = $attributedNode->getStartLine(); $line <= $attributedNode->getEndLine(); $line++) {
-                $this->ignoredLines[] = $line;
-            }
-
-            return;
-        }
-
         $this->processDocComment($node);
     }
 
     /**
-     * @psalm-return array<int>
+     * @psalm-return list<int>
      */
     public function ignoredLines(): array
     {
@@ -105,16 +102,18 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
-        if (str_contains($docComment->getText(), '@codeCoverageIgnore')) {
-            for ($line = $node->getStartLine(); $line <= $node->getEndLine(); $line++) {
-                $this->ignoredLines[] = $line;
-            }
+        if (strpos($docComment->getText(), '@codeCoverageIgnore') !== false) {
+            $this->ignoredLines = array_merge(
+                $this->ignoredLines,
+                range($node->getStartLine(), $node->getEndLine())
+            );
         }
 
-        if ($this->ignoreDeprecated && str_contains($docComment->getText(), '@deprecated')) {
-            for ($line = $node->getStartLine(); $line <= $node->getEndLine(); $line++) {
-                $this->ignoredLines[] = $line;
-            }
+        if ($this->ignoreDeprecated && strpos($docComment->getText(), '@deprecated') !== false) {
+            $this->ignoredLines = array_merge(
+                $this->ignoredLines,
+                range($node->getStartLine(), $node->getEndLine())
+            );
         }
     }
 }

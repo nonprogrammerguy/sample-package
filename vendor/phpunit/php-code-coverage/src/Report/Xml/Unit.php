@@ -16,7 +16,10 @@ use DOMElement;
  */
 final class Unit
 {
-    private DOMElement $contextNode;
+    /**
+     * @var DOMElement
+     */
+    private $contextNode;
 
     public function __construct(DOMElement $context, string $name)
     {

@@ -2,12 +2,6 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [5.0.0] - 2022-MM-DD
-
-### Removed
-
-* This component is no longer supported on PHP 7.3, PHP 7.4 and PHP 8.0
-
 ## [4.0.5] - 202Y-MM-DD
 
 ### Fixed
@@ -39,7 +33,6 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Tests etc. are now ignored for archive exports
 
-[5.0.0]: https://github.com/sebastianbergmann/recursion-context/compare/4.0...main
 [4.0.5]: https://github.com/sebastianbergmann/recursion-context/compare/4.0.4...4.0
 [4.0.4]: https://github.com/sebastianbergmann/recursion-context/compare/4.0.3...4.0.4
 [4.0.3]: https://github.com/sebastianbergmann/recursion-context/compare/4.0.2...4.0.3

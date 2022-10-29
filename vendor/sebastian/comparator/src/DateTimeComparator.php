@@ -47,8 +47,8 @@ class DateTimeComparator extends ObjectComparator
      * @param bool  $ignoreCase   Case is ignored when set to true
      * @param array $processed    List of already processed elements (used to prevent infinite recursion)
      *
-     * @throws ComparisonFailure
      * @throws Exception
+     * @throws ComparisonFailure
      */
     public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false, array &$processed = [])/*: void*/
     {

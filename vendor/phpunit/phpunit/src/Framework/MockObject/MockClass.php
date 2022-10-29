@@ -17,21 +17,23 @@ use function class_exists;
  */
 final class MockClass implements MockType
 {
-    private string $classCode;
+    /**
+     * @var string
+     */
+    private $classCode;
 
     /**
-     * @psalm-var class-string
+     * @var class-string
      */
-    private string $mockName;
+    private $mockName;
 
     /**
-     * @psalm-var list<ConfigurableMethod>
+     * @var ConfigurableMethod[]
      */
-    private array $configurableMethods;
+    private $configurableMethods;
 
     /**
      * @psalm-param class-string $mockName
-     * @psalm-param list<ConfigurableMethod> $configurableMethods
      */
     public function __construct(string $classCode, string $mockName, array $configurableMethods)
     {
@@ -60,7 +62,7 @@ final class MockClass implements MockType
         return $this->mockName;
     }
 
-    public function classCode(): string
+    public function getClassCode(): string
     {
         return $this->classCode;
     }

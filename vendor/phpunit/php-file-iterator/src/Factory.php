@@ -21,16 +21,21 @@ use AppendIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-final class Factory
+class Factory
 {
-    public function getFileIterator(array|string $paths, array|string $suffixes = '', array|string $prefixes = '', array $exclude = []): AppendIterator
+    /**
+     * @param array|string $paths
+     * @param array|string $suffixes
+     * @param array|string $prefixes
+     */
+    public function getFileIterator($paths, $suffixes = '', $prefixes = '', array $exclude = []): AppendIterator
     {
         if (is_string($paths)) {
             $paths = [$paths];
         }
 
-        $paths   = $this->pathsAfterResolvingWildcards($paths);
-        $exclude = $this->pathsAfterResolvingWildcards($exclude);
+        $paths   = $this->getPathsAfterResolvingWildcards($paths);
+        $exclude = $this->getPathsAfterResolvingWildcards($exclude);
 
         if (is_string($prefixes)) {
             if ($prefixes !== '') {
@@ -69,7 +74,7 @@ final class Factory
         return $iterator;
     }
 
-    private function pathsAfterResolvingWildcards(array $paths): array
+    protected function getPathsAfterResolvingWildcards(array $paths): array
     {
         $_paths = [[]];
 

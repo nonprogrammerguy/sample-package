@@ -13,9 +13,9 @@ use function is_bool;
 use function is_object;
 use function is_scalar;
 use function is_string;
-use function mb_strtolower;
 use function method_exists;
 use function sprintf;
+use function strtolower;
 
 /**
  * Compares scalar or NULL values for equality.
@@ -35,10 +35,10 @@ class ScalarComparator extends Comparator
     public function accepts($expected, $actual)
     {
         return ((is_scalar($expected) xor null === $expected) &&
-               (is_scalar($actual) xor null === $actual)) ||
+               (is_scalar($actual) xor null === $actual))
                // allow comparison between strings and objects featuring __toString()
-               (is_string($expected) && is_object($actual) && method_exists($actual, '__toString')) ||
-               (is_object($expected) && method_exists($expected, '__toString') && is_string($actual));
+               || (is_string($expected) && is_object($actual) && method_exists($actual, '__toString'))
+               || (is_object($expected) && method_exists($expected, '__toString') && is_string($actual));
     }
 
     /**
@@ -64,8 +64,8 @@ class ScalarComparator extends Comparator
             $actualToCompare   = (string) $actualToCompare;
 
             if ($ignoreCase) {
-                $expectedToCompare = mb_strtolower($expectedToCompare, 'UTF-8');
-                $actualToCompare   = mb_strtolower($actualToCompare, 'UTF-8');
+                $expectedToCompare = strtolower($expectedToCompare);
+                $actualToCompare   = strtolower($actualToCompare);
             }
         }
 

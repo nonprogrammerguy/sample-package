@@ -19,9 +19,14 @@ use function is_string;
 use function realpath;
 use function sort;
 
-final class Facade
+class Facade
 {
-    public function getFilesAsArray(array|string $paths, array|string $suffixes = '', array|string $prefixes = '', array $exclude = [], bool $commonPath = false): array
+    /**
+     * @param array|string $paths
+     * @param array|string $suffixes
+     * @param array|string $prefixes
+     */
+    public function getFilesAsArray($paths, $suffixes = '', $prefixes = '', array $exclude = [], bool $commonPath = false): array
     {
         if (is_string($paths)) {
             $paths = [$paths];
@@ -50,7 +55,7 @@ final class Facade
 
         if ($commonPath) {
             return [
-                'commonPath' => $this->commonPath($files),
+                'commonPath' => $this->getCommonPath($files),
                 'files'      => $files,
             ];
         }
@@ -58,7 +63,7 @@ final class Facade
         return $files;
     }
 
-    private function commonPath(array $files): string
+    protected function getCommonPath(array $files): string
     {
         $count = count($files);
 
@@ -73,7 +78,7 @@ final class Facade
         $_files = [];
 
         foreach ($files as $file) {
-            $_files[] = $_fileParts = explode(DIRECTORY_SEPARATOR, $file, 2);
+            $_files[] = $_fileParts = explode(DIRECTORY_SEPARATOR, $file);
 
             if (empty($_fileParts[0])) {
                 $_fileParts[0] = DIRECTORY_SEPARATOR;
@@ -87,7 +92,7 @@ final class Facade
 
         while (!$done) {
             for ($i = 0; $i < $count; $i++) {
-                if ($_files[$i][$j] !== $_files[$i + 1][$j]) {
+                if ($_files[$i][$j] != $_files[$i + 1][$j]) {
                     $done = true;
 
                     break;

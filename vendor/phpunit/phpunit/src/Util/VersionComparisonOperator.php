@@ -22,7 +22,7 @@ final class VersionComparisonOperator
     /**
      * @psalm-var '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
      */
-    private readonly string $operator;
+    private $operator;
 
     public function __construct(string $operator)
     {
@@ -32,7 +32,7 @@ final class VersionComparisonOperator
     }
 
     /**
-     * @psalm-return '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
+     * @return '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne'
      */
     public function asString(): string
     {

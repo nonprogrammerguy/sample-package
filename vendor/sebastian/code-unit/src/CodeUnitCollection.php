@@ -14,27 +14,34 @@ use function count;
 use Countable;
 use IteratorAggregate;
 
-/**
- * @psalm-immutable
- */
 final class CodeUnitCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<CodeUnit>
      */
-    private array $codeUnits;
-
-    public static function fromList(CodeUnit ...$codeUnits): self
-    {
-        return new self($codeUnits);
-    }
+    private $codeUnits = [];
 
     /**
-     * @psalm-param list<CodeUnit> $codeUnits
+     * @psalm-param list<CodeUnit> $items
      */
-    private function __construct(array $codeUnits)
+    public static function fromArray(array $items): self
     {
-        $this->codeUnits = $codeUnits;
+        $collection = new self;
+
+        foreach ($items as $item) {
+            $collection->add($item);
+        }
+
+        return $collection;
+    }
+
+    public static function fromList(CodeUnit ...$items): self
+    {
+        return self::fromArray($items);
+    }
+
+    private function __construct()
+    {
     }
 
     /**
@@ -62,11 +69,16 @@ final class CodeUnitCollection implements Countable, IteratorAggregate
 
     public function mergeWith(self $other): self
     {
-        return new self(
+        return self::fromArray(
             array_merge(
                 $this->asArray(),
                 $other->asArray()
             )
         );
+    }
+
+    private function add(CodeUnit $item): void
+    {
+        $this->codeUnits[] = $item;
     }
 }

@@ -1,8 +1,9 @@
 {
     "name": "nonprogrammerguy/sample-package",
     "description": "a sample package",
+    "type": "library",
     "require": {
-        "phpunit/phpunit": "10.0.x-dev"
+        "phpunit/phpunit": "^9.5.x-dev"
     },
     "license": "MIT",
     "autoload": {
@@ -10,10 +11,28 @@
             "Nonprogrammerguy\\SamplePackage\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Nonprogrammerguy\\SamplePackage\\Tests\\": "tests"
+        }
+    },
     "authors": [
         {
             "name": "evann"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "orchestra/testbench": "^6.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nonprogrammerguy\\SamplePackage\\SamplePackageServiceProvider"
+            ]
+        },
+        "aliases": {
+            "Calculator": "Nonprogrammerguy\\SamplePackage\\Facades\\Calculator"
+        }
+    }
 }

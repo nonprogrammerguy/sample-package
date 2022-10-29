@@ -18,11 +18,20 @@ use XMLWriter;
  */
 final class Coverage
 {
-    private XMLWriter $writer;
+    /**
+     * @var XMLWriter
+     */
+    private $writer;
 
-    private DOMElement $contextNode;
+    /**
+     * @var DOMElement
+     */
+    private $contextNode;
 
-    private bool $finalized = false;
+    /**
+     * @var bool
+     */
+    private $finalized = false;
 
     public function __construct(DOMElement $context, string $line)
     {

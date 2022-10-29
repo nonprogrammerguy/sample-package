@@ -20,14 +20,21 @@ use ReflectionMethod;
  */
 abstract class CodeUnit
 {
-    private string $name;
-
-    private string $sourceFileName;
+    /**
+     * @var string
+     */
+    private $name;
 
     /**
+     * @var string
+     */
+    private $sourceFileName;
+
+    /**
+     * @var array
      * @psalm-var list<int>
      */
-    private array $sourceLines;
+    private $sourceLines;
 
     /**
      * @psalm-param class-string $className
@@ -69,23 +76,6 @@ abstract class CodeUnit
             range(
                 $reflector->getStartLine(),
                 $reflector->getEndLine()
-            )
-        );
-    }
-
-    /**
-     * @throws InvalidCodeUnitException
-     */
-    public static function forFileWithAbsolutePath(string $path): FileUnit
-    {
-        self::ensureFileExistsAndIsReadable($path);
-
-        return new FileUnit(
-            $path,
-            $path,
-            range(
-                1,
-                count(file($path))
             )
         );
     }
@@ -268,26 +258,6 @@ abstract class CodeUnit
     public function isFunction(): bool
     {
         return false;
-    }
-
-    public function isFile(): bool
-    {
-        return false;
-    }
-
-    /**
-     * @throws InvalidCodeUnitException
-     */
-    private static function ensureFileExistsAndIsReadable(string $path): void
-    {
-        if (!(file_exists($path) && is_readable($path))) {
-            throw new InvalidCodeUnitException(
-                sprintf(
-                    'File "%s" does not exist or is not readable',
-                    $path
-                )
-            );
-        }
     }
 
     /**

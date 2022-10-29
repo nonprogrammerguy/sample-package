@@ -59,12 +59,12 @@ final class ExecutableLinesFindingVisitor extends NodeVisitorAbstract
     /**
      * @psalm-var array<int, int>
      */
-    private array $executableLines = [];
+    private $executableLines = [];
 
     /**
      * @psalm-var array<int, int>
      */
-    private array $propertyLines = [];
+    private $propertyLines = [];
 
     /**
      * @psalm-var array<int, Return_>
